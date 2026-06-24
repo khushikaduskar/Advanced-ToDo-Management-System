@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>Taskify Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>Taskify</h2>
+
+<ul>
+
+<li><i class="fa-solid fa-house"></i> Dashboard</li>
+<li><i class="fa-solid fa-list"></i> Tasks</li>
+<li><i class="fa-solid fa-chart-simple"></i> Analytics</li>
+<li><i class="fa-solid fa-gear"></i> Settings</li>
+
+</ul>
+
+</div>
+
+<div class="main">
+
+<h1>Welcome Back </h1>
+
+<div class="cards">
+
+<div class="card purple">
+<h3>Total Tasks</h3>
+<h1>{{total}}</h1>
+</div>
+
+<div class="card blue">
+<h3>Pending</h3>
+<h1>{{pending}}</h1>
+</div>
+
+<div class="card green">
+<h3>Completed</h3>
+<h1>{{completed}}</h1>
+</div>
+
+</div>
+
+<form action="/add" method="POST" class="task-form">
+
+<input
+type="text"
+name="task"
+placeholder="Enter New Task"
+required>
+
+<select name="priority">
+
+<option>High</option>
+<option selected>Medium</option>
+<option>Low</option>
+
+</select>
+
+<input
+type="date"
+name="due_date"
+required>
+
+<button type="submit">
+Add Task
+</button>
+
+</form>
+
+<input
+type="text"
+id="search"
+placeholder="Search Task..."
+onkeyup="searchTask()">
+
+<table>
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Task</th>
+<th>Priority</th>
+<th>Due Date</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for task in tasks %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{task[1]}}</td>
+
+<td>
+
+<span class="{{task[2].lower()}}">
+{{task[2]}}
+</span>
+
+</td>
+
+<td>{{task[3]}}</td>
+
+<td>{{task[4]}}</td>
+
+<td>
+
+<a href="/complete/{{task[0]}}" class="btn complete">
+✔
+</a>
+
+<a href="/delete/{{task[0]}}" class="btn delete">
+🗑
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="{{ url_for('static',filename='script.js') }}"></script>
+
+</body>
+</html>
